@@ -4,6 +4,7 @@ import { getDb } from './connexion';
 // Etape 2.3 : inscription d'un nouvel utilisateur
 export const insererUtilisateur = async (u) => {
   const db = await getDb();
+  const motDePasse = u.password ?? u.mdp;
   const res = await db.runAsync(
     `INSERT INTO utilisateurs (nom, prenom, email, telephone, mdp, newsletter, cgu)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -11,7 +12,7 @@ export const insererUtilisateur = async (u) => {
     u.prenom.trim(),
     u.email.trim().toLowerCase(),
     u.telephone ? u.telephone.trim() : null,
-    u.mdp,
+    motDePasse,
     u.newsletter ? 1 : 0,
     u.cgu ? 1 : 0
   );
